@@ -45,7 +45,7 @@ class PesertaController extends Controller
         ]);
     }
 
-    public function update($request, $id)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             "nama" => "required|min:10",

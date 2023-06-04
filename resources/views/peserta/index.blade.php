@@ -167,7 +167,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form action="{{ route('peserta.update', '2') }}" id="formEdit" method="PUT">
+              <form action="" id="formEdit" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
@@ -216,6 +216,9 @@
                 $('#nomor_telefonEdit').val(res.data.nomor_telefon);
                 $('#alamatEdit').val(res.data.alamat);
                 $('#idEdit').val(res.data.id);
+
+                var form = $('#formEdit');
+                form.attr('action', 'peserta/'+id);
 
                 $('#modalEdit').modal('show');
 
