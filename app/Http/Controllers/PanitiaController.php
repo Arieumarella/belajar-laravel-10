@@ -14,7 +14,9 @@ class PanitiaController extends Controller
      */
     public function index()
     {
-        //
+        return view("panitia.index")->with([
+            "data" => Panitia::latest()->paginate(5),
+        ]);
     }
 
     /**
@@ -22,10 +24,6 @@ class PanitiaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +33,27 @@ class PanitiaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "nama" => "required",
+            "nomor_telefon" => "required",
+            "email" => "required",
+            "alamat" => "required",
+        ]);
+
+        $pros = Panitia::create([
+            "nama" => $request->nama,
+            "nomor_telepon" => $request->nomor_telefon,
+            "email" => $request->email,
+            "alamat" => $request->alamat,
+        ]);
+
+        $KeyflashMassage = $pros == true ? "ok" : "no";
+        $massageFlshMassage =
+            $pros == true ? "Data Berhasil Disimpan" : "Data Gagal Disimpan";
+
+        return redirect()
+            ->route("panitia.index")
+            ->with([$KeyflashMassage => $massageFlshMassage]);
     }
 
     /**

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Panitia extends Model
 {
     use HasFactory;
+
+    protected $fillable = ["nama", "nomor_telepon", "email", "alamat"];
 }

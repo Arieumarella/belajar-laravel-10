@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource("/peserta", \App\Http\Controllers\PesertaController::class);
+Route::resource("/panitia", \App\Http\Controllers\PanitiaController::class);

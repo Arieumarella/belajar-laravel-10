@@ -82,4 +82,129 @@
   </div>
 </div>
 
+
+<div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal Tambah Data</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('peserta.store') }}" method="POST">
+          @csrf
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Nama</label>
+            <input type="text" class="form-control" name="nama" id="nama" placeholder="input nama" required>
+          </div>
+          <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Telepon</label>
+              <input type="text" class="form-control" name="nomor_telefon" id="nomor_telefon" placeholder="input telepon" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+            </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Alamat</label>
+            <textarea class="form-control" name="alamat" id="alamat" placeholder="Input Alamat"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+
+
+{{-- Edit modal --}}
+<div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal Edit Data</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" id="formEdit" method="POST">
+          @csrf
+          @method('PUT')
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Nama</label>
+            <input type="text" class="form-control" name="nama" id="namaEdit" placeholder="input nama" required>
+            <input type="hidden" class="form-control" name="idEdit" id="idEdit">
+          </div>
+          <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Telepon</label>
+              <input type="text" class="form-control" name="nomor_telefon" id="nomor_telefonEdit" placeholder="input telepon" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+            </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Alamat</label>
+            <textarea class="form-control" name="alamat" id="alamatEdit" placeholder="Input Alamat"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+{{-- End Edit Modal --}}
+
+<script>
+$( document ).ready(function() {
+  showAddModal = function () {
+      $('#modalTambah').modal('show');
+  }
+
+  showModalEdit = function (id){
+
+    let token   = $("meta[name='csrf-token']").attr("content");
+
+    $.ajax({
+        url: "/peserta/"+id+"/edit",
+        type: "GET",
+        data: {
+                  "_token": token
+        },
+        success:function(res){    
+
+          $('#namaEdit').val(res.data.nama);
+          $('#nomor_telefonEdit').val(res.data.nomor_telefon);
+          $('#alamatEdit').val(res.data.alamat);
+          $('#idEdit').val(res.data.id);
+
+          var form = $('#formEdit');
+          form.attr('action', 'peserta/'+id);
+
+          $('#modalEdit').modal('show');
+
+        }
+    });
+
+  }
+
+
+  deleteData = function (id){
+
+    let token   = $("meta[name='csrf-token']").attr("content");
+
+    $.ajax({
+        url: "/peserta/"+id,
+        type: "DELETE",
+        data: {
+                  "_token": token
+        },
+        success:function(response){ 
+          location.reload();
+        }
+    });
+
+  }
+
+
+});
+</script>
+
 @endsection
